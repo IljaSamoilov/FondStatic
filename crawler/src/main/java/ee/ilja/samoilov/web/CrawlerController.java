@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
-/**
- * Created by ilsam on 6/16/2017.
- */
+@SuppressWarnings("unused")
 @RestController
 public class CrawlerController {
 
-    final
+    private final
     HTMLCrawler htmlCrawler;
 
     @Autowired
