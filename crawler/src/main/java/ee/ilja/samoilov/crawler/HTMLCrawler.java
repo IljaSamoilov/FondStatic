@@ -1,5 +1,6 @@
 package ee.ilja.samoilov.crawler;
 
+import ee.ilja.samoilov.configuration.Configuration;
 import ee.ilja.samoilov.dto.FinanceData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,6 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,12 +16,18 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-/**
- * Created by ilsam on 6/16/2017.
- */
 @Service
 public class HTMLCrawler {
-    ArrayList<FinanceData> financeDatas;
+
+    private ArrayList<FinanceData> financeDatas;
+
+    private final Configuration configuration;
+
+    @Autowired
+    public HTMLCrawler(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
     public ArrayList<FinanceData> crawlData() {
         financeDatas = new ArrayList<>();
 
@@ -32,8 +40,8 @@ public class HTMLCrawler {
         driver.get(baseUrl);
 
         driver.findElement(By.xpath("//a[@data-id='PWD']")).click();
-        driver.findElement(By.xpath("//input[@id='nickname']")).sendKeys("iljasamoilov");
-        driver.findElement(By.xpath("//input[@id='pwd']")).sendKeys("abcdfg29");
+        driver.findElement(By.xpath("//input[@id='nickname']")).sendKeys(configuration.getLogin());
+        driver.findElement(By.xpath("//input[@id='pwd']")).sendKeys(configuration.getPassword());
         driver.findElement(By.id("login_submit")).click();
         String htmlContent = driver.getPageSource();
         Document document = Jsoup.parse(htmlContent);
