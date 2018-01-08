@@ -4,17 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ee.ilja.samoilov</groupId>
-	<artifactId>crawler</artifactId>
+	<artifactId>fonddata</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>crawler</name>
-	<description>Demo project for Spring Boot</description>
+	<name>fondData</name>
+	<description>database processor</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.4.RELEASE</version>
+		<version>1.5.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -27,47 +27,32 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jooq</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>edu.uci.ics</groupId>-->
-			<!--<artifactId>crawler4j</artifactId>-->
-			<!--<version>4.3</version>-->
-		<!--</dependency>-->
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>3.4.0</version>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.seleniumhq.selenium</groupId>-->
-			<!--<artifactId>selenium-firefox-driver</artifactId>-->
-			<!--<version>3.4.0</version>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>org.seleniumhq.selenium</groupId>-->
-			<!--<artifactId>htmlunit-driver</artifactId>-->
-			<!--<version>2.27</version>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>net.sourceforge.htmlunit</groupId>-->
-			<!--<artifactId>htmlunit</artifactId>-->
-			<!--<version>2.27</version>-->
-		<!--</dependency>-->
 		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.10.3</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>4.3.9.RELEASE</version>
 		</dependency>
 	</dependencies>
 

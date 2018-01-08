@@ -1,4 +1,4 @@
-package ee.ilja.samoilov.dto;
+package ee.ilja.samoilov.fondData.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

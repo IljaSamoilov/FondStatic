@@ -45,9 +45,9 @@ public class HTMLCrawler {
         driver.findElement(By.id("login_submit")).click();
         String htmlContent = driver.getPageSource();
         Document document = Jsoup.parse(htmlContent);
-        Element table = document.body().getElementById("view_12102").getElementsByTag("tbody").get(0);
+         Element table = document.body().getElementById("view_12102").getElementsByTag("tbody").get(0);
         ArrayList<Element> financeDataRows = parseChildNodes(table.children());
-        //we need to remove 0 element because it's head and dont contains useful info.
+        //we need to remove 0 element because it's head and does not contains useful info.
         financeDataRows.remove(0);
 //        ArrayList<Elements> elements = financeDataRows.stream().map(Element::children).collect(Collectors.toList());
         financeDataRows.stream().map(Element::children).forEach(this::parseFinanceData);
