@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/SpendingAnalyzer/SpendingAnalyzer.iml" filepath="$PROJECT_DIR$/SpendingAnalyzer/SpendingAnalyzer.iml" />
       <module fileurl="file://$PROJECT_DIR$/crawler/crawler.iml" filepath="$PROJECT_DIR$/crawler/crawler.iml" />
       <module fileurl="file://$PROJECT_DIR$/fondData/fondData.iml" filepath="$PROJECT_DIR$/fondData/fondData.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fondData/fonddata.iml" filepath="$PROJECT_DIR$/fondData/fonddata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpendingAnalyzer/spending-analyzer.iml" filepath="$PROJECT_DIR$/SpendingAnalyzer/spending-analyzer.iml" />
     </modules>
   </component>
 </project>
