@@ -2,14 +2,11 @@ package ee.ilja.samoilov.fondData.controllers;
 
 import ee.ilja.samoilov.fondData.dto.FinanceData;
 import ee.ilja.samoilov.fondData.service.FinanceDataService;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -19,16 +16,17 @@ import java.util.ArrayList;
 @RestController
 public class DataController {
 
-    @Autowired
-    private BasicDataSource basicDataSource;
+//    @Autowired
+//    private BasicDataSource basicDataSource;
 
     @Autowired
     private FinanceDataService financeDataService;
 
     @RequestMapping(value = "/getLast", method = RequestMethod.GET, produces = "application/json")
-    private FinanceData getLastFinanceData() {
+    private FinanceData[] getLastFinanceData() {
         System.out.println("asdsa");
-        return financeDataService.performRequest();
+        FinanceData[] financeDatas = financeDataService.performRequest();
+        return financeDatas;
 //        try {
 //            System.out.println(basicDataSource.getConnection().getClientInfo());
 //        } catch (SQLException e) {
