@@ -3,19 +3,26 @@ package ee.ilja.samoilov.containers;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Data
 public class Transaction {
 
     private BigDecimal sum;
 
-    private String benificiary;
+    private String beneficiary;
 
-    private 
+    private String explanation;
 
-    public Transaction(BigDecimal sum, String benificiary, boolean isDebit) {
+    private Timestamp date;
+
+    public Transaction() {
+
+    }
+
+    public Transaction(BigDecimal sum, String beneficiary, boolean isDebit) {
         this.setSum(sum, isDebit);
-       this.benificiary = benificiary;
+       this.beneficiary = beneficiary;
     }
 
     public void setSum(BigDecimal sum, boolean isDebit) {

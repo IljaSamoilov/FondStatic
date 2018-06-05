@@ -1,13 +1,21 @@
 package ee.ilja.samoilov.fondData.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-//@Configuration
-//@ComponentScan(basePackages = "ee.ilja.samoilov.fondData")
-public class DBConfig {
+@Component
+public class DBConfig implements CommandLineRunner {
+
+//    private final DSLContext create;
+
+//    @Autowired
+//    public DBConfig(DSLContext dslContext) {
+//        this.create = dslContext;
+//    }
 
 //    @Bean(name="basicDataSource")
     public BasicDataSource basicDataSource() throws URISyntaxException {
@@ -22,5 +30,10 @@ public class DBConfig {
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
         return basicDataSource;
+    }
+
+    @Override
+    public void run(String... strings) throws Exception {
+
     }
 }

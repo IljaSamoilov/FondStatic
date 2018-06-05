@@ -7,6 +7,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,6 +19,9 @@ import java.io.IOException;
  */
 @Service
 public class FinanceDataService {
+
+    @Autowired
+    DSLContext dsl;
 
     public synchronized FinanceData[] performRequest() {
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {

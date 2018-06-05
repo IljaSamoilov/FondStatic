@@ -2,12 +2,11 @@ package ee.ilja.samoilov.fondData.controllers;
 
 import ee.ilja.samoilov.fondData.dto.FinanceData;
 import ee.ilja.samoilov.fondData.service.FinanceDataService;
+import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 /**
  * Created by Ilja on 27.09.2017.
@@ -18,6 +17,9 @@ public class DataController {
 
 //    @Autowired
 //    private BasicDataSource basicDataSource;
+
+    @Autowired
+    DSLContext dsl;
 
     @Autowired
     private FinanceDataService financeDataService;
@@ -35,8 +37,8 @@ public class DataController {
 //        return new FinanceData();
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
-    private ArrayList<FinanceData> getAllFinanceData() {
-        return new ArrayList<>();
-    }
+//    @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
+//    private List<String> getAllFinanceData() {
+//        return dsl.select().from(Transactions.TRANSACTIONS).fetch().getValues(Transactions.TRANSACTIONS.BENEFICIARY);
+//    }
 }
