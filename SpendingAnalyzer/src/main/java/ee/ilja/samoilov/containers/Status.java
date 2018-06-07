@@ -1,8 +1,11 @@
 package ee.ilja.samoilov.containers;
 
+import lombok.Data;
+
 /**
  * Created by Ilja on 13.01.2018.
  */
+@Data
 public class Status {
     private static String OK = "OK";
     private static String ERROR = "ERROR";

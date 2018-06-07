@@ -20,9 +20,10 @@ public class Transaction {
 
     }
 
-    public Transaction(BigDecimal sum, String beneficiary, boolean isDebit) {
+    public Transaction(BigDecimal sum, String beneficiary, boolean isDebit, Timestamp date) {
         this.setSum(sum, isDebit);
        this.beneficiary = beneficiary;
+       this.date = date;
     }
 
     public void setSum(BigDecimal sum, boolean isDebit) {

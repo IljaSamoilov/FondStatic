@@ -29,7 +29,7 @@ public class AnalyzerContoller {
     DSLContext dsl;
 
     @PostMapping("/upload") // //new annotation since 4.3
-    public Status singleFileUpload(@RequestParam("file") MultipartFile file) {
+    public @ResponseBody Status singleFileUpload(@RequestParam("file") MultipartFile file) {
 
         if (file.isEmpty()) {
             return new Status(false, "Empty file");
@@ -37,11 +37,11 @@ public class AnalyzerContoller {
         try {
             //here create a container for data
             ArrayList<Transaction> transactions = new ArrayList<>();
-            CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream()), ';');
+            CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream()), ';', '"');
             while (csvReader.hasNext()) {
                 dataProcessingHandler.parseTransaction(csvReader.next(), transactions);
-
             }
+            dataProcessingHandler.sendTransactions(transactions);
             return new Status(true, "");
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,4 +54,5 @@ public class AnalyzerContoller {
     private List<Transaction> getAllTransacrions() {
         return dsl.select().from(TRANSACTIONS).fetch().into(Transaction.class);
     }
+
 }
