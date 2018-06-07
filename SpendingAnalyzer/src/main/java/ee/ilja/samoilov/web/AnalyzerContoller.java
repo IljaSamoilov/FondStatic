@@ -1,5 +1,6 @@
 package ee.ilja.samoilov.web;
 
+import ee.ilja.samoilov.containers.Category;
 import ee.ilja.samoilov.containers.Status;
 import ee.ilja.samoilov.containers.Transaction;
 import ee.ilja.samoilov.service.DataProcessingHandler;
@@ -29,7 +30,8 @@ public class AnalyzerContoller {
     DSLContext dsl;
 
     @PostMapping("/upload") // //new annotation since 4.3
-    public @ResponseBody Status singleFileUpload(@RequestParam("file") MultipartFile file) {
+    public @ResponseBody
+    Status singleFileUpload(@RequestParam("file") MultipartFile file) {
 
         if (file.isEmpty()) {
             return new Status(false, "Empty file");
@@ -55,4 +57,23 @@ public class AnalyzerContoller {
         return dsl.select().from(TRANSACTIONS).fetch().into(Transaction.class);
     }
 
+    /**
+     * TODO
+     * @param month
+     * @return
+     */
+    @PostMapping("/getTransactionsForMonth")
+    private @ResponseBody List<Transaction> getMonthTransaction(@RequestBody String month) {
+        return new ArrayList<>();
+    }
+
+    /**
+     * TODO
+     * @param category
+     * @return
+     */
+    @PostMapping("/updateCategory")
+    private @ResponseBody Status updateCategoryForBeneficiary(@RequestBody Category category) {
+        return new Status(true, "OK");
+    }
 }
