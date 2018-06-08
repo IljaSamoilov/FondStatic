@@ -3,6 +3,7 @@ package ee.ilja.samoilov.web;
 import ee.ilja.samoilov.containers.Category;
 import ee.ilja.samoilov.containers.Status;
 import ee.ilja.samoilov.containers.Transaction;
+import ee.ilja.samoilov.containers.TransactionModel;
 import ee.ilja.samoilov.service.DataProcessingHandler;
 import org.jooq.DSLContext;
 import org.jooq.tools.csv.CSVReader;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ee.ilja.samoilov.data.tables.Transactions.TRANSACTIONS;
+import static ee.ilja.samoilov.data.tables.Categories.CATEGORIES;
 
 /**
  * Created by Ilja on 9.01.2018.
@@ -47,9 +49,8 @@ public class AnalyzerContoller {
             return new Status(true, "");
         } catch (IOException e) {
             e.printStackTrace();
+            return new Status(false, e.getMessage());
         }
-
-        return new Status(false, "unknown error");
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
@@ -63,7 +64,8 @@ public class AnalyzerContoller {
      * @return
      */
     @PostMapping("/getTransactionsForMonth")
-    private @ResponseBody List<Transaction> getMonthTransaction(@RequestBody String month) {
+    private @ResponseBody List<Transaction> getMonthTransaction(@RequestParam int month) {
+//        return dsl.select().from(TRANSACTIONS).where(TRANSACTIONS)
         return new ArrayList<>();
     }
 
@@ -75,5 +77,23 @@ public class AnalyzerContoller {
     @PostMapping("/updateCategory")
     private @ResponseBody Status updateCategoryForBeneficiary(@RequestBody Category category) {
         return new Status(true, "OK");
+    }
+
+    /**
+     * TODO
+     * @return
+     */
+    @PostMapping("/model")
+    private @ResponseBody TransactionModel getTransactionModel() {
+        return new TransactionModel();
+    }
+
+    /**
+     * TODO
+     * @return
+     */
+    @GetMapping("/getEmptyCategories")
+    private @ResponseBody List<Category> getAllBeneficiariesWithOutCategory() {
+        return dsl.select().from(CATEGORIES).where(CATEGORIES.CATEGORY.eq("")).fetch().into(Category.class);
     }
 }
