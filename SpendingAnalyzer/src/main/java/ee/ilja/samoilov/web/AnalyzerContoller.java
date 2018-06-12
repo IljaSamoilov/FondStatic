@@ -13,8 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ee.ilja.samoilov.data.tables.Transactions.TRANSACTIONS;
 import static ee.ilja.samoilov.data.tables.Categories.CATEGORIES;
@@ -59,14 +63,17 @@ public class AnalyzerContoller {
     }
 
     /**
-     * TODO
      * @param month
      * @return
      */
-    @PostMapping("/getTransactionsForMonth")
+    @GetMapping("/getTransactionsForMonth")
     private @ResponseBody List<Transaction> getMonthTransaction(@RequestParam int month) {
-//        return dsl.select().from(TRANSACTIONS).where(TRANSACTIONS)
-        return new ArrayList<>();
+        List<Transaction> transactions = dsl.select().from(TRANSACTIONS).fetch().into(Transaction.class);
+        return transactions.stream().filter(transaction -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date((transaction.getDate()).getTime()));
+            return calendar.get(Calendar.MONTH) == month - 1;
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -76,6 +83,10 @@ public class AnalyzerContoller {
      */
     @PostMapping("/updateCategory")
     private @ResponseBody Status updateCategoryForBeneficiary(@RequestBody Category category) {
+        dsl.update(CATEGORIES)
+                .set(CATEGORIES.CATEGORY, category.getCategory())
+                .where(CATEGORIES.BENEFICIARY.eq(category.getBeneficiary()))
+                .executeAsync();
         return new Status(true, "OK");
     }
 
@@ -89,11 +100,10 @@ public class AnalyzerContoller {
     }
 
     /**
-     * TODO
      * @return
      */
     @GetMapping("/getEmptyCategories")
     private @ResponseBody List<Category> getAllBeneficiariesWithOutCategory() {
-        return dsl.select().from(CATEGORIES).where(CATEGORIES.CATEGORY.eq("")).fetch().into(Category.class);
+        return dsl.select().from(CATEGORIES).where(CATEGORIES.CATEGORY.eq("").or(CATEGORIES.CATEGORY.isNull())).fetch().into(Category.class);
     }
 }
