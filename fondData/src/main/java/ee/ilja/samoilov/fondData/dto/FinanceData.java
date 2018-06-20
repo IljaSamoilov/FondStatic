@@ -12,12 +12,11 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-//@Entity
 public class FinanceData implements Serializable {
     @Column
     private String symbol;
     @Column
-    private String timeStamp = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date());
+    private String timeStamp;
     @Column
     private BigDecimal amount;
     @Column
