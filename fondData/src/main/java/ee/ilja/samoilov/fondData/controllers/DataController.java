@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * Created by Ilja on 27.09.2017.
  */
@@ -29,7 +27,7 @@ public class DataController {
     @RequestMapping(value = "/getLast", method = RequestMethod.GET, produces = "application/json")
     private FinanceData[] getLastFinanceData() {
         System.out.println("asdsa");
-        FinanceData[] financeDatas = financeDataService.performRequest();
+        FinanceData[] financeDatas = financeDataService.getCrawledData();
         return financeDatas;
 //        try {
 //            System.out.println(basicDataSource.getConnection().getClientInfo());
@@ -43,4 +41,9 @@ public class DataController {
 //    private List<String> getAllFinanceData() {
 //        return dsl.select().from(Transactions.TRANSACTIONS).fetch().getValues(Transactions.TRANSACTIONS.BENEFICIARY);
 //    }
+
+    @RequestMapping(value = "/updateDatabase")
+    private void updateDatabase() {
+        financeDataService.saveNewData();
+    }
 }
