@@ -65,12 +65,12 @@ public class HTMLCrawler {
         FinanceData financeData = new FinanceData();
         financeData.setSymbol(data.get(0).text());
         financeData.setAmount(new BigDecimal(data.get(1).text()));
-        financeData.setExemplarPurchasePrice(new BigDecimal(data.get(2).text()));
-        financeData.setExemplarMarketPrice(new BigDecimal(data.get(3).text()));
+        financeData.setExemplarpurchaseprice(new BigDecimal(data.get(2).text()));
+        financeData.setExemplarmarketprice(new BigDecimal(data.get(3).text()));
         financeData.setChange(new BigDecimal(data.get(4).text().replace("%", "")));
-        financeData.setChangeToday(new BigDecimal(data.get(5).text().replace("%", "")));
+        financeData.setChangetoday(new BigDecimal(data.get(5).text().replace("%", "")));
         financeData.setProfit(new BigDecimal(data.get(6).text()));
-        financeData.setTotalMarketPrice(new BigDecimal(data.get(7).text()));
+        financeData.setTotalmarketprice(new BigDecimal(data.get(7).text()));
         financeData.setPart(new BigDecimal(data.get(8).text().replace("%", "")));
         financeDatas.add(financeData);
         return financeData;
