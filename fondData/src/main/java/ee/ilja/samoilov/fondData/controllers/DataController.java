@@ -4,9 +4,9 @@ import ee.ilja.samoilov.fondData.dto.FinanceData;
 import ee.ilja.samoilov.fondData.service.FinanceDataService;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by Ilja on 27.09.2017.
@@ -45,5 +45,14 @@ public class DataController {
     @RequestMapping(value = "/updateDatabase")
     private void updateDatabase() {
         financeDataService.saveNewData();
+    }
+
+    @GetMapping(value = "/getLast")
+    private @ResponseBody FinanceData getLast() {
+        return financeDataService.getLastDataForSymbol("QQQ");
+    }
+    @GetMapping(value = "/getSymbols")
+    private @ResponseBody List<String> getSymbols() {
+        return financeDataService.getSymbols();
     }
 }
