@@ -1,9 +1,9 @@
 package ee.ilja.samoilov.fondData.service;
 
 import com.google.gson.*;
-import ee.ilja.samoilov.data.fondData.tables.Financedata;
 import ee.ilja.samoilov.data.fondData.tables.records.FinancedataRecord;
 import ee.ilja.samoilov.fondData.dto.FinanceData;
+import ee.ilja.samoilov.fondData.repository.DataRepository;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -11,16 +11,14 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static ee.ilja.samoilov.data.fondData.tables.Financedata.FINANCEDATA;
 
@@ -33,6 +31,11 @@ public class FinanceDataService {
 
     @Autowired
     DSLContext dsl;
+
+    @Autowired
+    DataRepository dataRepository;
+
+    private Logger logger = Logger.getGlobal();
 
     public synchronized FinanceData[] getCrawledData() {
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
@@ -72,19 +75,24 @@ public class FinanceDataService {
 
     }
 
-    public synchronized void saveNewData() {
-        FinanceData[] financeDataList = getCrawledData();
+    public synchronized void updateDatabase() {
+        List<FinanceData> financeDataList = dataRepository.getLastFinanceData();
         for (FinanceData financeData : financeDataList) {
             FinanceData lastData = getLastDataForSymbol(financeData.getSymbol());
             if (financeData.equals(lastData) == false) {
                 FinancedataRecord record = dsl.newRecord(FINANCEDATA, financeData);
                 dsl.executeInsert(record);
-                System.out.println(financeData.getSymbol() + " NOT EQUALS");
-
+                logger.info("Database updated with new finance data for " + financeData.getSymbol());
             } else {
-                System.out.println(financeData.getSymbol() + " EQUALS");
+                logger.info("Database already has latest info for " + financeData.getSymbol());
             }
         }
+    }
+
+    @Scheduled(cron = "0 0 * * * MON-FRI")
+    private void scheduledDatabaseUpdate() {
+        logger.info("SCHEDULED DATABASE UPDATING");
+        updateDatabase();
     }
 
 }

@@ -1,6 +1,7 @@
 package ee.ilja.samoilov.fondData.controllers;
 
 import ee.ilja.samoilov.fondData.dto.FinanceData;
+import ee.ilja.samoilov.fondData.repository.DataRepository;
 import ee.ilja.samoilov.fondData.service.FinanceDataService;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,32 +25,22 @@ public class DataController {
     @Autowired
     private FinanceDataService financeDataService;
 
-    @RequestMapping(value = "/getLast", method = RequestMethod.GET, produces = "application/json")
-    private FinanceData[] getLastFinanceData() {
-        System.out.println("asdsa");
-        FinanceData[] financeDatas = financeDataService.getCrawledData();
-        return financeDatas;
-//        try {
-//            System.out.println(basicDataSource.getConnection().getClientInfo());
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return new FinanceData();
-    }
+    @Autowired
+    DataRepository dataRepository;
 
-//    @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
-//    private List<String> getAllFinanceData() {
-//        return dsl.select().from(Transactions.TRANSACTIONS).fetch().getValues(Transactions.TRANSACTIONS.BENEFICIARY);
-//    }
+    @GetMapping(value = "/getLatestInfo", produces = "application/json")
+    private List<FinanceData> getLastFinanceData() {
+        return dataRepository.getLastFinanceData();
+    }
 
     @RequestMapping(value = "/updateDatabase")
     private void updateDatabase() {
-        financeDataService.saveNewData();
+        financeDataService.updateDatabase();
     }
 
-    @GetMapping(value = "/getLast")
-    private @ResponseBody FinanceData getLast() {
-        return financeDataService.getLastDataForSymbol("QQQ");
+    @GetMapping(value = "/getLastForSymbol")
+    private @ResponseBody FinanceData getLast(@RequestParam String symbol) {
+        return financeDataService.getLastDataForSymbol(symbol);
     }
     @GetMapping(value = "/getSymbols")
     private @ResponseBody List<String> getSymbols() {
