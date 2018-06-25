@@ -37,8 +37,7 @@ public class FinanceData implements Serializable {
                 Objects.equals(getChange(), that.getChange()) &&
                 Objects.equals(getChangetoday(), that.getChangetoday()) &&
                 Objects.equals(getProfit(), that.getProfit()) &&
-                Objects.equals(getTotalmarketprice(), that.getTotalmarketprice()) &&
-                Objects.equals(getPart(), that.getPart());
+                Objects.equals(getTotalmarketprice(), that.getTotalmarketprice());
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.List;
  * Created by Ilja on 27.09.2017.
  */
 @SuppressWarnings("unused")
+@CrossOrigin(origins ={"http://localhost:8080","http://localhost:8082"})
 @RestController
 public class DataController {
 
@@ -27,6 +28,11 @@ public class DataController {
 
     @Autowired
     DataRepository dataRepository;
+
+    @GetMapping(value = "/getAllData")
+    private List<FinanceData> getAllFinanceData() {
+        return financeDataService.getAllData();
+    }
 
     @GetMapping(value = "/getLatestInfo", produces = "application/json")
     private List<FinanceData> getLastFinanceData() {

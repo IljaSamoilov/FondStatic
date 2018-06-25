@@ -95,4 +95,9 @@ public class FinanceDataService {
         updateDatabase();
     }
 
+    public List<FinanceData> getAllData() {
+        return dsl.select()
+                .from(FINANCEDATA)
+                .fetch().into(FinanceData.class);
+    }
 }
