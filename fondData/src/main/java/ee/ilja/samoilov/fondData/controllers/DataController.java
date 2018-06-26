@@ -52,4 +52,9 @@ public class DataController {
     private @ResponseBody List<String> getSymbols() {
         return financeDataService.getSymbols();
     }
+
+    @GetMapping(value = "/getAllDataForSymbol")
+    private @ResponseBody List<FinanceData> getAllDataForSymbol(@RequestParam String symbol) {
+        return financeDataService.getAllDataForSymbol(symbol);
+    }
 }

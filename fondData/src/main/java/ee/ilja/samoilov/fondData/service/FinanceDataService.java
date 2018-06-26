@@ -100,4 +100,12 @@ public class FinanceDataService {
                 .from(FINANCEDATA)
                 .fetch().into(FinanceData.class);
     }
+
+    public List<FinanceData> getAllDataForSymbol(String symbol) {
+        return dsl.selectDistinct()
+                .from(FINANCEDATA)
+                .where(FINANCEDATA.SYMBOL.eq(symbol))
+                .orderBy(FINANCEDATA.TIMESTAMP.desc())
+                .fetchInto(FinanceData.class);
+    }
 }
