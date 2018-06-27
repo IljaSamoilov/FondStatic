@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Ilja on 27.09.2017.
  */
 @SuppressWarnings("unused")
-@CrossOrigin(origins ={"http://localhost:8080","http://localhost:8082"})
+@CrossOrigin(origins ={"http://localhost:8080","http://localhost:8082", "https://fondstatic.herokuapp.com/"})
 @RestController
 public class DataController {
 
