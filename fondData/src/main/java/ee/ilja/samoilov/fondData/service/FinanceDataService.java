@@ -68,24 +68,32 @@ public class FinanceDataService {
                 .get(0);
     }
 
+
     public synchronized List<String> getSymbols() {
         return dsl.selectDistinct(FINANCEDATA.SYMBOL)
                 .from(FINANCEDATA)
                 .fetch().into(String.class);
-
     }
 
     public synchronized void updateDatabase() {
+        List<String> symbols = getSymbols();
         List<FinanceData> financeDataList = dataRepository.getLastFinanceData();
         for (FinanceData financeData : financeDataList) {
-            FinanceData lastData = getLastDataForSymbol(financeData.getSymbol());
-            if (financeData.equals(lastData) == false) {
+            if (symbols.contains(financeData.getSymbol())) {
+                FinanceData lastData = getLastDataForSymbol(financeData.getSymbol());
+                if (financeData.equals(lastData) == false) {
+                    FinancedataRecord record = dsl.newRecord(FINANCEDATA, financeData);
+                    dsl.executeInsert(record);
+                    logger.info("Database updated with new finance data for " + financeData.getSymbol());
+                } else {
+                    logger.info("Database already has latest info for " + financeData.getSymbol());
+                }
+            } else {
                 FinancedataRecord record = dsl.newRecord(FINANCEDATA, financeData);
                 dsl.executeInsert(record);
                 logger.info("Database updated with new finance data for " + financeData.getSymbol());
-            } else {
-                logger.info("Database already has latest info for " + financeData.getSymbol());
             }
+
         }
     }
 
