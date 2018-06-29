@@ -1,6 +1,7 @@
 package ee.ilja.samoilov.fondData.controllers;
 
 import ee.ilja.samoilov.fondData.dto.FinanceData;
+import ee.ilja.samoilov.fondData.dto.Results;
 import ee.ilja.samoilov.fondData.repository.DataRepository;
 import ee.ilja.samoilov.fondData.service.FinanceDataService;
 import org.jooq.DSLContext;
@@ -56,5 +57,15 @@ public class DataController {
     @GetMapping(value = "/getAllDataForSymbol")
     private @ResponseBody List<FinanceData> getAllDataForSymbol(@RequestParam String symbol) {
         return financeDataService.getAllDataForSymbol(symbol);
+    }
+
+    @GetMapping(value = "getResults")
+    private @ResponseBody List<Results> getResults() {
+        return financeDataService.getResults();
+    }
+
+    @GetMapping(value = "getLastResults")
+    private @ResponseBody Results getLastResults() {
+        return financeDataService.getLastResults();
     }
 }

@@ -1,6 +1,7 @@
 package ee.ilja.samoilov.fondData.repository;
 
 import ee.ilja.samoilov.fondData.dto.FinanceData;
+import ee.ilja.samoilov.fondData.dto.Results;
 import ee.ilja.samoilov.fondData.service.FinanceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ public class DataRepository {
 
     private List<FinanceData> lastFinanceData;
     private Calendar registeredTime;
+    private Results results;
 
     @Autowired
     FinanceDataService financeDataService;

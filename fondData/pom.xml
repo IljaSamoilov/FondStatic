@@ -116,11 +116,11 @@
 								<!--<driver>${spring.datasource.driverClassName}</driver>-->
 								<driver>org.postgresql.Driver</driver>
 								<!--<url>${spring.datasource.url}</url>-->
-								<url>jdbc:postgresql://ec2-54-217-243-160.eu-west-1.compute.amazonaws.com:5432/ddu5lfnovask1h?sslmode=require</url>
+								<url>jdbc:postgresql://ec2-54-247-100-44.eu-west-1.compute.amazonaws.com:5432/dae6ovhnpvknb9?sslmode=require&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory</url>
 								<!--<user>${spring.datasource.username}</user>-->
-								<user>cieougxdombemi</user>
+								<user>kpymnwxpszmfjn</user>
 								<!--<password>${spring.datasource.password}</password>-->
-								<password>f156fd53c2ba7c54c163a01ce148688ae8d44d17f7caafda8232025184f56fbb</password>
+								<password>41ade2ce58195a2c05da3022592ae97cdc47c08cd6e5f7cd56a6d02be3dc240b</password>
 								<properties>
 									<property><key>ssl</key><value>true</value></property>
 									<property><key>sslfactory</key><value>org.postgresql.ssl.NonValidatingFactory</value></property>
