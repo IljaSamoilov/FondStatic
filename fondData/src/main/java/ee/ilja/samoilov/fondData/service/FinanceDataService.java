@@ -2,30 +2,28 @@ package ee.ilja.samoilov.fondData.service;
 
 import com.google.gson.*;
 import ee.ilja.samoilov.data.fondData.tables.records.FinancedataRecord;
-import ee.ilja.samoilov.data.fondData.tables.records.ResultsRecord;
 import ee.ilja.samoilov.fondData.dto.FinanceData;
 import ee.ilja.samoilov.fondData.dto.Results;
 import ee.ilja.samoilov.fondData.repository.DataRepository;
+import ee.ilja.samoilov.fondData.utility.DataUtility;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.jooq.DSLContext;
-import org.jooq.impl.SQLDataType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import static ee.ilja.samoilov.data.fondData.tables.Financedata.FINANCEDATA;
-import static ee.ilja.samoilov.data.fondData.tables.Results.RESULTS;
 
 
 /**
@@ -39,6 +37,9 @@ public class FinanceDataService {
 
     @Autowired
     DataRepository dataRepository;
+
+    @Autowired
+    ResultsService resultsService;
 
     private Logger logger = Logger.getGlobal();
 
@@ -85,6 +86,7 @@ public class FinanceDataService {
         boolean resultsNeedsUpdate = false;
         List<String> symbols = getSymbols();
         List<FinanceData> financeDataList = dataRepository.getLastFinanceData();
+//        checkIfSymbolsAreSold(symbols, financeDataList);
         for (FinanceData financeData : financeDataList) {
             if (symbols.contains(financeData.getSymbol())) {
                 FinanceData lastData = getLastDataForSymbol(financeData.getSymbol());
@@ -104,11 +106,11 @@ public class FinanceDataService {
             results.update(financeData.getTotalmarketprice(), financeData.getProfit());
         }
         if (resultsNeedsUpdate) {
-            updateResults(results);
+            resultsService.updateResults(results);
         }
     }
 
-    @Scheduled(cron = "0 0 * * * MON-FRI")
+    @Scheduled(cron = "0 */30 * * * MON-FRI")
     private void scheduledDatabaseUpdate() {
         logger.info("SCHEDULED DATABASE UPDATING");
         updateDatabase();
@@ -128,31 +130,20 @@ public class FinanceDataService {
                 .fetchInto(FinanceData.class);
     }
 
-    @PostConstruct
-    private void createTablesIfNonExists() {
-        dsl.createTableIfNotExists("results")
-                .column("profit", SQLDataType.NUMERIC)
-                .column("total", SQLDataType.NUMERIC)
-                .column("timestamp", SQLDataType.TIMESTAMP)
-                .execute();
+    private void checkIfSymbolsAreSold(List<String> symbols, List<FinanceData> financeDataList) {
+        List<String> symbolsFromData = DataUtility.extractSymbols(financeDataList);
+        List<String> symbolsNotPresent = new ArrayList<>(symbols);
+        symbolsNotPresent.removeAll(symbolsFromData);
+        if (symbolsNotPresent.size() > 0) {
+            symbolsNotPresent.forEach(this::deleteAllDataForThatSymbol);
+        }
     }
 
-    public List<Results> getResults() {
-        return dsl.select()
-                .from(RESULTS)
-                .fetchInto(Results.class);
+    private void deleteAllDataForThatSymbol(String symbol) {
+        logger.info(String.format("%s symbol deleted", symbol));
+        dsl.delete(FINANCEDATA)
+           .where(FINANCEDATA.SYMBOL.eq(symbol))
+           .execute();
     }
 
-    private void updateResults(Results results) {
-        ResultsRecord record = dsl.newRecord(RESULTS, results);
-        dsl.executeInsert(record);
-    }
-
-    public Results getLastResults() {
-        return dsl.select()
-                .from(RESULTS)
-                .orderBy(RESULTS.TIMESTAMP.desc())
-                .fetchInto(Results.class)
-                .get(0);
-    }
 }

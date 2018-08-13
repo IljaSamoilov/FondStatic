@@ -4,6 +4,7 @@ import ee.ilja.samoilov.fondData.dto.FinanceData;
 import ee.ilja.samoilov.fondData.dto.Results;
 import ee.ilja.samoilov.fondData.repository.DataRepository;
 import ee.ilja.samoilov.fondData.service.FinanceDataService;
+import ee.ilja.samoilov.fondData.service.ResultsService;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ public class DataController {
 
     @Autowired
     private FinanceDataService financeDataService;
+
+    @Autowired
+    private ResultsService resultsService;
 
     @Autowired
     DataRepository dataRepository;
@@ -61,11 +65,11 @@ public class DataController {
 
     @GetMapping(value = "getResults")
     private @ResponseBody List<Results> getResults() {
-        return financeDataService.getResults();
+        return resultsService.getResults();
     }
 
     @GetMapping(value = "getLastResults")
     private @ResponseBody Results getLastResults() {
-        return financeDataService.getLastResults();
+        return resultsService.getLastResults();
     }
 }
