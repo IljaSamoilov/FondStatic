@@ -5,12 +5,14 @@ import ee.ilja.samoilov.fondData.dto.Results;
 import org.jooq.DSLContext;
 import org.jooq.impl.SQLDataType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static ee.ilja.samoilov.data.fondData.Tables.RESULTS;
 
+@Service
 public class ResultsService {
 
     @Autowired
