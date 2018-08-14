@@ -23,7 +23,7 @@ public class DataRepository {
     public List<FinanceData> getLastFinanceData() {
         Calendar now = Calendar.getInstance();
         if (lastFinanceData != null && registeredTime != null) {
-            if (now.getTime().getTime() - registeredTime.getTime().getTime() < 1800000) {
+            if (now.getTime().getTime() - registeredTime.getTime().getTime() < 1680000) {
                 System.out.println("RETURNING OLD FINANCE DATA FROM REPOSITORY");
                 return lastFinanceData;
             }
